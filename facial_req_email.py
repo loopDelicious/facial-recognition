@@ -23,8 +23,8 @@ def send_email(name):
 	message = Mail(
 		from_email=os.environ.get('SENDGRID_EMAIL'),
 		to_emails=os.environ.get('RECIPIENT_EMAIL'),
-		subject='You have a visitor: ${name}',
-		html_content='<strong>Your webcame recognizes someone: ${name}</strong>'
+		subject='You have a visitor: {}'.format(name),
+		html_content='<strong>Your webcame recognizes someone. {} is here.</strong>'.format(name)
 	)
 	with open('image.jpg', 'rb') as f:
 		data = f.read()
