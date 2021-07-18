@@ -1,6 +1,6 @@
 import cv2
 
-name = 'Lucy' #replace with your name
+name = 'Lucy' # replace with your name, same as folder name in datasets/
 
 cam = cv2.VideoCapture(0)
 

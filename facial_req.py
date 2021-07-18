@@ -6,11 +6,11 @@ import pickle
 import time
 import cv2
 
-#Initialize 'currentname' to trigger only when a new person is identified.
+# initialize 'currentname' to trigger only when a new person is identified
 currentname = "unknown"
-#Determine faces from encodings.pickle file model created from train_model.py
+# determine faces from encodings.pickle file model created from train_model.py
 encodingsP = "encodings.pickle"
-#use this xml file
+# use this xml file
 cascade = "haarcascade_frontalface_default.xml"
 
 # load the known faces and embeddings along with OpenCV's Haar
@@ -60,7 +60,7 @@ while True:
 		# encodings
 		matches = face_recognition.compare_faces(data["encodings"],
 			encoding)
-		name = "Unknown" #if face is not recognized, then print Unknown
+		name = "Unknown" # if face is not recognized, then print Unknown
 
 		# check to see if we have found a match
 		if True in matches:
@@ -71,7 +71,7 @@ while True:
 			counts = {}
 
 			# loop over the matched indexes and maintain a count for
-			# each recognized face face
+			# each recognized face
 			for i in matchedIdxs:
 				name = data["names"][i]
 				counts[name] = counts.get(name, 0) + 1
@@ -81,7 +81,7 @@ while True:
 			# will select first entry in the dictionary)
 			name = max(counts, key=counts.get)
 			
-			#If someone in your dataset is identified, print their name on the screen
+			# if someone in your dataset is identified, print their name on the screen
 			if currentname != name:
 				currentname = name
 				print(currentname)

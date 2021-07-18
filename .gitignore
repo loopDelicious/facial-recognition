@@ -1,0 +1,6 @@
+venv/
+.env
+encodings.pickle
+
+Joyce/
+image.jpg

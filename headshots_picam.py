@@ -2,7 +2,7 @@ import cv2
 from picamera import PiCamera
 from picamera.array import PiRGBArray
 
-name = 'Caroline' #replace with your name
+name = 'Lucy' # replace with your name, same as folder name in datasets/
 
 cam = PiCamera()
 cam.resolution = (512, 304)
@@ -19,7 +19,8 @@ while True:
     
         k = cv2.waitKey(1)
         rawCapture.truncate(0)
-        if k%256 == 27: # ESC pressed
+        if k%256 == 27: 
+            # ESC pressed
             break
         elif k%256 == 32:
             # SPACE pressed
