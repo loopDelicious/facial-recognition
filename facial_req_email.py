@@ -1,6 +1,6 @@
-#! /usr/bin/python
-
-# import the necessary packages
+import os
+from dotenv import load_dotenv
+load_dotenv()
 from imutils.video import VideoStream
 from imutils.video import FPS
 import face_recognition
@@ -8,28 +8,40 @@ import imutils
 import pickle
 import time
 import cv2
-import requests
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import (Mail, Attachment, FileContent, FileName, FileType, Disposition)
+import base64
 
-#Initialize 'currentname' to trigger only when a new person is identified.
+# Initialize 'currentname' to trigger only when a new person is identified.
 currentname = "unknown"
-#Determine faces from encodings.pickle file model created from train_model.py
+# Determine faces from encodings.pickle file model created from train_model.py
 encodingsP = "encodings.pickle"
-#use this xml file
+# Use this xml file
 cascade = "haarcascade_frontalface_default.xml"
 
-#function for setting up emails
-def send_message(name):
-    return requests.post(
-        "https://api.mailgun.net/v3/YOUR_DOMAIN_NAME/messages",
-        auth=("api", "YOUR_API_KEY"),
-        files = [("attachment", ("image.jpg", open("image.jpg", "rb").read()))],
-        data={"from": 'hello@example.com',
-            "to": ["YOUR_MAILGUN_EMAIL_ADDRESS"],
-            "subject": "You have a visitor",
-            "html": "<html>" + name + " is at your door.  </html>"})
+def send_email(name):
+	message = Mail(
+		from_email=os.environ.get('SENDGRID_EMAIL'),
+		to_emails=os.environ.get('MY_EMAIL'),
+		subject='You have a visitor: ${name}',
+		html_content='<strong>Your webcame recognizes someone: ${name}</strong>'
+	)
+	with open('image.jpg', 'rb') as f:
+		data = f.read()
+		f.close()
+	encoded_file = base64.b64encode(data).decode()
+	attachedFile = Attachment(
+		FileContent(encoded_file),
+		FileName('image.jpg'),
+		FileType('image/jpg'),
+		Disposition('attachment')
+	)
+	message.attachment = attachedFile
+	sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+	response = sg.send(message)
+	print(response.status_code, response.body, response.headers)
 
-# load the known faces and embeddings along with OpenCV's Haar
-# cascade for face detection
+# load the known faces and embeddings
 print("[INFO] loading encodings + face detector...")
 data = pickle.loads(open(encodingsP, "rb").read())
 detector = cv2.CascadeClassifier(cascade)
@@ -106,8 +118,8 @@ while True:
 				print('Taking a picture.')
 				
 				#Now send me an email to let me know who is at the door
-				request = send_message(name)
-				print ('Status Code: '+format(request.status_code)) #200 status code means email sent successfully
+				request = send_email(name)
+				print ('Status Code: '+format(request.status_code)) #202 status code means email sent successfully
 				
 		# update the list of names
 		names.append(name)

@@ -1,17 +1,20 @@
-#! /usr/bin/python
+import sendgrid
+from sendgrid.helpers.mail import Mail, Email, To, Content
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
-# Imports
-import requests
+sg = sendgrid.SendGridAPIClient(api_key=os.environ.get('SENDGRID_API_KEY'))
+from_email = Email(os.environ.get('SENDGRID_EMAIL'))  # Change to your verified sender
+to_email = To(os.environ.get('MY_EMAIL'))  # Change to your recipient
+subject = "You have a visitor"
+content = Content("text/plain", "Your webcam recognizes someone.")
+mail = Mail(from_email, to_email, subject, content)
 
-def send_simple_message():
-    print("I am sending an email.")
-    return requests.post(
-        "https://api.mailgun.net/v3/YOUR_DOMAIN_NAME/messages",
-        auth=("api", "YOUR_API_KEY"),
-        data={"from": 'hello@example.com',
-            "subject": "Visitor Alert",
-            "html": "<html> Your Raspberry Pi recognizes someone. </html>"})
-                      
-request = send_simple_message()
-print ('Status: '+format(request.status_code))
-print ('Body:'+ format(request.text))
+# Get a JSON-ready representation of the Mail object
+mail_json = mail.get()
+
+# Send an HTTP POST request to /mail/send
+response = sg.client.mail.send.post(request_body=mail_json)
+print(response.status_code)
+print(response.headers)
