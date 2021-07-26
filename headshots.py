@@ -1,6 +1,6 @@
 import cv2
 
-name = 'Lucy' # replace with your name, same as folder name in datasets/
+name = 'Joyce' # replace with your name
 
 cam = cv2.VideoCapture(0)
 
@@ -24,6 +24,7 @@ while True:
     elif k%256 == 32:
         # SPACE pressed
         img_name = "dataset/{}/image_{}.jpg".format(name, img_counter)
+        cv2.imwrite(img_name, frame)
         print("{} written!".format(img_name))
         img_counter += 1
 

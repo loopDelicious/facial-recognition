@@ -1,8 +1,8 @@
-import sendgrid
-from sendgrid.helpers.mail import Mail, Email, To, Content
 import os
 from dotenv import load_dotenv
 load_dotenv()
+import sendgrid
+from sendgrid.helpers.mail import Mail, Email, To, Content
 
 sg = sendgrid.SendGridAPIClient(api_key=os.environ.get('SENDGRID_API_KEY'))
 from_email = Email(os.environ.get('SENDGRID_EMAIL'))  # Change to your verified sender

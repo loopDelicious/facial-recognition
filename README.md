@@ -11,7 +11,7 @@ This tutorial shows you how to train a facial recognition model to identify visi
 Clone this example project, and change into the directory from the command line.
 
     $ git clone git@github.com:loopDelicious/facial-recognition.git
-    $ cd face-recognition
+    $ cd facial-recognition
 
 Create a virtual environment called `venv`. Activate the virtual environment, and then install the required Python packages inside the virtual environment. If you’re on Unix or Mac operating systems, enter these commands in a terminal.
 
@@ -25,16 +25,16 @@ If you’re on a Windows machine, enter these commands in a command prompt windo
     $ venv\Scripts\activate
     (venv) $ pip install -r requirements.txt
 
-## Step 1: Add a dataset
-Create a new subfolder under `dataset` named after you, like `Charlie`. Find `headshots.py` and update row 3 precisely as you named the subfolder. Then run this command to open a new webcam window. Press the spacebar to take at least 10 pictures of your face from different angles. When you're done, **ESC** to close the window.
+## Step 1: Create a custom face recognition dataset
+Find `headshots.py` and update row 3 with your name (or row 5 of `headshots_picam.py` if using Pi camera).
 
     (venv) $ python headshots.py
 
-Repeat this step to add more friends, making sure to create a separate folder for each person.
+Run this command to open a new webcam window. Press the spacebar to take at least 10 pictures of your face from different angles. When you're done, **ESC** to close the window. Repeat this step to add more friends, creating a separate folder for each person.
 
 ## Step 2: Train the model
 
-    (venv) $ python train_model.py
+    (venv) $ python encode_faces.py
 
 Run this command to analyze the photos and create a new file `encodings.pickle` that contains criteria for identifying these faces.
 
@@ -49,14 +49,18 @@ Create a new file called `.env` (notice the dot in front of the filename), forma
 
     (venv) $ python send_test_email.py
 
-Run this commnad to test your email is sending properly.
+Run this command to test your email is sending properly.
 
 ## Step 5: Add email notifications to facial recognition
 
-    (venv) $ ython facial_req_email.py
+    (venv) $ python facial_req_email.py
 
-Run this command to put it all together. If the webcam recognizes someone, it will snap a photo and send an email notification to announce the new arrival. 
+Run this command to open a new webcam window and put it all together. If someone from your dataset is recognized, the webcam will snap a photo and send an email notification to announce the new arrival. 
 
 ---
 # Forked from this Raspberry Pi 4 Facial Recognition tutorial
 https://www.tomshardware.com/how-to/raspberry-pi-facial-recognition
+
+# Including code samples from these Face Recognition tutorials
+https://www.pyimagesearch.com/2018/06/11/how-to-build-a-custom-face-recognition-dataset/
+https://www.pyimagesearch.com/2018/06/18/face-recognition-with-opencv-python-and-deep-learning/

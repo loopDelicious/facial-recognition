@@ -12,11 +12,11 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import (Mail, Attachment, FileContent, FileName, FileType, Disposition)
 import base64
 
-# Initialize 'currentname' to trigger only when a new person is identified.
+# initialize 'currentname' to trigger only when a new person is identified
 currentname = "unknown"
-# Determine faces from encodings.pickle file model created from train_model.py
+# determine faces from encodings.pickle file model created from train_model.py
 encodingsP = "encodings.pickle"
-# Use this xml file
+# use this xml file
 cascade = "haarcascade_frontalface_default.xml"
 
 def send_email(name):
@@ -34,8 +34,7 @@ def send_email(name):
 		FileContent(encoded_file),
 		FileName('image.jpg'),
 		FileType('image/jpg'),
-		Disposition('attachment')
-	)
+		Disposition('attachment'))
 	message.attachment = attachedFile
 	sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
 	response = sg.send(message)
@@ -83,8 +82,7 @@ while True:
 
 	# loop over the facial embeddings
 	for encoding in encodings:
-		# attempt to match each face in the input image to our known
-		# encodings
+		# attempt to match each face in the input image to our known encodings
 		matches = face_recognition.compare_faces(data["encodings"],
 			encoding)
 		name = "Unknown"
@@ -103,30 +101,28 @@ while True:
 				name = data["names"][i]
 				counts[name] = counts.get(name, 0) + 1
 
-			# determine the recognized face with the largest number
-			# of votes (note: in the event of an unlikely tie Python
-			# will select first entry in the dictionary)
+			# determine the recognized face with the largest number of
+			# votes (note: in the event of an unlikely tie Python will
+			# select first entry in the dictionary)
 			name = max(counts, key=counts.get)
 			
-			#If someone in your dataset is identified, print their name on the screen
+			# if someone in your dataset is identified
 			if currentname != name:
 				currentname = name
 				print(currentname)
-				#Take a picture to send in the email
+				# take a picture to send in the email
 				img_name = "image.jpg"
 				cv2.imwrite(img_name, frame)
 				print('Taking a picture.')
 				
-				#Now send me an email to let me know who is at the door
+				# send an email to announce who is at the door
 				request = send_email(name)
 				print ('Status Code: '+format(request.status_code)) #202 status code means email sent successfully
-				
-		# update the list of names
 		names.append(name)
 
 	# loop over the recognized faces
 	for ((top, right, bottom, left), name) in zip(boxes, names):
-		# draw the predicted face name on the image - color is in BGR
+		# draw the predicted face name on the image
 		cv2.rectangle(frame, (left, top), (right, bottom),
 			(0, 255, 225), 2)
 		y = top - 15 if top - 15 > 15 else top + 15
@@ -139,9 +135,8 @@ while True:
 
 	# if the `q` key was pressed, break from the loop
 	if key == ord("q"):
-		break
+		break 
 
-	# update the FPS counter
 	fps.update()
 
 # stop the timer and display FPS information
@@ -149,6 +144,5 @@ fps.stop()
 print("[INFO] elasped time: {:.2f}".format(fps.elapsed()))
 print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 
-# do a bit of cleanup
 cv2.destroyAllWindows()
 vs.stop()
