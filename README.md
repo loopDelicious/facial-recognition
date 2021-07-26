@@ -4,7 +4,7 @@ This tutorial shows you how to train a facial recognition model to identify visi
 
 ## Tutorial Requirements
 - Python version 3
-- A USB webcam
+- A webcam (your laptop’s built-in webcam or an external one)
 - A [free Twilio SendGrid account](https://signup.sendgrid.com/) to send up to 100 free emails per day
 
 ## Step 0: Clone repo and install dependencies
@@ -36,7 +36,7 @@ Run this command to open a new webcam window. Press the spacebar to take at leas
 
     (venv) $ python encode_faces.py
 
-Run this command to analyze the photos and create a new file `encodings.pickle` that contains criteria for identifying these faces.
+Run this command to analyze the photos and output a new file `encodings.pickle` that contains criteria for identifying these faces.
 
 ## Step 3: Test the model
 
@@ -49,18 +49,20 @@ Create a new file called `.env` (notice the dot in front of the filename), forma
 
     (venv) $ python send_test_email.py
 
-Run this command to test your email is sending properly.
+Run this command to send a test email.
 
 ## Step 5: Add email notifications to facial recognition
 
     (venv) $ python facial_req_email.py
 
-Run this command to open a new webcam window and put it all together. If someone from your dataset is recognized, the webcam will snap a photo and send an email notification to announce the new arrival. 
+Run this command to open a new webcam window and try it out. If someone from your dataset is recognized, the webcam will snap a photo and send an email notification to announce the new arrival. 
 
 ---
-# Forked from this Raspberry Pi 4 Facial Recognition tutorial
+## Attributions
+
+### Forked from this Raspberry Pi 4 Facial Recognition tutorial
 https://www.tomshardware.com/how-to/raspberry-pi-facial-recognition
 
-# Including code samples from these Face Recognition tutorials
+### Included code samples from these Face Recognition tutorials
 https://www.pyimagesearch.com/2018/06/11/how-to-build-a-custom-face-recognition-dataset/
 https://www.pyimagesearch.com/2018/06/18/face-recognition-with-opencv-python-and-deep-learning/
