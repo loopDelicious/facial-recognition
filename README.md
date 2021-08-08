@@ -26,11 +26,11 @@ If you’re on a Windows machine, enter these commands in a command prompt windo
     (venv) $ pip install -r requirements.txt
 
 ## Step 1: Create a custom face recognition dataset
-Find `headshots.py` and update row 3 with your name (or row 5 of `headshots_picam.py` if using Pi camera).
+Create a new subfolder inside `dataset` using your first name, like `Joyce`, to contain your photos.
 
-    (venv) $ python headshots.py
+    (venv) $ python headshots.py Joyce
 
-Run this command to open a new webcam window. Press the spacebar to take at least 10 pictures of your face from different angles. When you're done, **ESC** to close the window. Repeat this step to add more friends, creating a separate folder for each person.
+Then run this command to open a new webcam window, passing in the name of your new subfolder. Use `headshots_picam.py` if using a Pi camera. Press the spacebar to take at least 10 pictures of your face from different angles. When you're done, **ESC** to close the window. Repeat this step to add more friends, creating a separate folder for each person.
 
 ## Step 2: Train the model
 

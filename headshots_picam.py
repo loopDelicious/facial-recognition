@@ -1,15 +1,15 @@
 import cv2
 from picamera import PiCamera
 from picamera.array import PiRGBArray
+import sys
+import uuid
 
-name = 'Joyce' # replace with your name
+name = sys.argv[1] # name passed from command line argument
 
 cam = PiCamera()
 cam.resolution = (512, 304)
 cam.framerate = 10
 rawCapture = PiRGBArray(cam, size=(512, 304))
-    
-img_counter = 0
 
 while True:
     for frame in cam.capture_continuous(rawCapture, format="bgr", use_video_port=True):
@@ -24,10 +24,9 @@ while True:
             break
         elif k%256 == 32:
             # SPACE pressed
-            img_name = "dataset/{}/image_{}.jpg".format(name, img_counter)
+            img_name = "dataset/{}/image_{}.jpg".format(name, uuid.uuid4().hex)
             cv2.imwrite(img_name, image)
             print("{} written!".format(img_name))
-            img_counter += 1
             
     if k%256 == 27:
         print("Escape hit, closing...")
