@@ -26,7 +26,7 @@ If you’re on a Windows machine, enter these commands in a command prompt windo
     (venv) $ pip install -r requirements.txt
 
 ## Step 1: Create a custom face recognition dataset
-Create a new subfolder inside `dataset` using your first name, like `Joyce`, to contain your photos.
+Create a new subfolder inside the `dataset` directory using your first name, like `Joyce`, to contain your photos.
 
     (venv) $ python headshots.py Joyce
 
